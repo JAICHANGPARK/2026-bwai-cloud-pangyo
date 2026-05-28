@@ -7,7 +7,7 @@
 ## 폴더 구조 및 파일 설명
 
 *   [system_prompt.txt](./system_prompt.txt): 다른 AI 모델(예: Gemini 등)에 입력하여 제약 조건에 맞는 코드를 자동 생성하기 위한 시스템 프롬프트 텍스트 파일입니다.
-*   [main.py](./main.py): 환경변수를 읽고 로컬 서버(Ollama, LM Studio, llama.cpp)를 호출해 대화를 진행하는 비동기 파이썬 레퍼런스 코드입니다.
+*   [main.py](./reference/main.py): 환경변수를 읽고 로컬 서버(Ollama, LM Studio, llama.cpp)를 호출해 대화를 진행하는 비동기 파이썬 레퍼런스 코드(정답 코드)입니다.
 
 ---
 
@@ -41,11 +41,12 @@ LLM_MODEL=gemma-4-e4b-it
 uv 가상환경이 활성화된 상태에서 아래 명령어를 실행하여 코드를 구동합니다.
 
 ```bash
-# 기본 질문으로 실행
-uv run main.py
+# 프로젝트 루트 폴더에서 실행 시 (권장)
+uv run hands-on/reference/main.py
 
-# 질문을 변경하여 실행
-uv run main.py "로컬 LLM을 연동할 때 HTTPX가 Requests 라이브러리보다 유리한 점은 무엇인가요?"
+# hands-on 폴더로 이동하여 실행 시
+cd hands-on
+uv run reference/main.py "로컬 LLM을 연동할 때 HTTPX가 Requests 라이브러리보다 유리한 점은 무엇인가요?"
 ```
 
 ---

@@ -35,10 +35,10 @@
 터미널을 열고 프로젝트 루트에서 `agy` 명령어를 직접 호출하여 필요한 코드를 파일로 생성하도록 요청합니다. `agy`는 에이전트이므로 파일을 직접 쓰고 수정할 수 있습니다.
 
 ```bash
-agy "Ollama에서 gemma4:e4b 모델을 호출하고 생각 과정(thinking)과 답변을 httpx로 처리하는 파이썬 코드를 hands-on/main.py에 작성해줘"
+agy "Ollama에서 gemma4:e4b 모델을 호출하고 생각 과정(thinking)과 답변을 httpx로 처리하는 파이썬 코드를 hands-on/reference/main.py에 작성해줘"
 ```
 
-*   **동작 원리:** `agy` CLI가 가동되면서 `.agents/rules/gemma4_hands_on.md`에 설정된 제약조건을 자동으로 읽어들이고, 이에 맞춰 `hands-on/main.py` 파일을 생성해 줍니다.
+*   **동작 원리:** `agy` CLI가 가동되면서 `.agents/rules/gemma4_hands_on.md`에 설정된 제약조건을 자동으로 읽어들이고, 이에 맞춰 `hands-on/reference/main.py` 파일을 생성해 줍니다.
 
 ---
 
