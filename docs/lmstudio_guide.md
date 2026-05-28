@@ -4,7 +4,7 @@
 
 > [!WARNING]
 > **인텔 맥(Intel Mac) 미지원 안내:**
-> LM Studio 최신 버전은 인텔 맥(Intel CPU 탑재 macOS 기기)을 공식적으로 지원하지 않거나 실행 시 정상 작동하지 않을 수 있습니다. 인텔 맥 사용자는 LM Studio 대신 **[Ollama 설치 가이드](./ollama_guide.md)** 혹은 **[llama.cpp 빌드 가이드](./llamacpp_guide.md)**를 사용하여 Gemma 4 모델을 구동하는 것을 강력히 권장합니다.
+> LM Studio 최신 버전은 인텔 맥(Intel CPU 탑재 macOS 기기)을 공식적으로 지원하지 않거나 실행 시 정상 작동하지 않을 수 있습니다. 인텔 맥 사용자는 LM Studio 대신 [**Ollama 설치 가이드**](./ollama_guide.md) 혹은 [**llama.cpp 빌드 가이드**](./llamacpp_guide.md)를 사용하여 Gemma 4 모델을 구동하는 것을 강력히 권장합니다.
 
 ---
 
@@ -26,7 +26,7 @@
 
 LM Studio를 실행한 후 앱 내에서 직접 허깅페이스(Hugging Face)에 등록된 Gemma 4 GGUF 파일을 검색하고 내려받을 수 있습니다.
 
-1. **모델 검색 창으로 이동:** LM Studio 좌측 메뉴 바의 **돋보기 아이콘(Search)**을 클릭합니다.
+1. **모델 검색 창으로 이동:** LM Studio 좌측 메뉴 바의 **돋보기 아이콘(Search)을** 클릭합니다.
 2. **모델 검색:** 상단 검색창에 `gemma-4`를 입력하고 엔터를 누릅니다.
 3. **업로더/레포지토리 선택:** 검색 결과 목록에서 신뢰도 높은 업로더(예: `bartowski`, `unsloth` 또는 공식 Google 저장소)의 저장소를 선택합니다.
    *   **Gemma 4 E4B (16GB RAM 이상 권장):** `gemma-4-E4B-it-GGUF` 또는 `gemma-4-E4B-it`가 포함된 결과를 선택합니다.
@@ -41,7 +41,7 @@ LM Studio를 실행한 후 앱 내에서 직접 허깅페이스(Hugging Face)에
 
 다운로드가 완료되면 LM Studio 내에서 바로 대화를 시작할 수 있습니다.
 
-1. 좌측 메뉴에서 **말풍선 아이콘(AI Chat)**을 클릭하여 채팅 화면으로 이동합니다.
+1. 좌측 메뉴에서 **말풍선 아이콘(AI Chat)을** 클릭하여 채팅 화면으로 이동합니다.
 2. 화면 상단 중앙의 **Select a model to load** 드롭다운 메뉴를 클릭합니다.
 3. 방금 다운로드한 `gemma-4-e4b-it` (혹은 `e2b`) 모델을 클릭하여 메모리에 로드합니다.
    *   오른쪽 사이드바의 **Hardware Settings**에서 GPU 가속(GPU Offload)이 켜져 있는지 확인하세요. Apple Silicon Mac의 경우 `Metal`이 자동으로 활성화되어 하드웨어 가속이 진행됩니다.
@@ -54,7 +54,7 @@ LM Studio를 실행한 후 앱 내에서 직접 허깅페이스(Hugging Face)에
 
 LM Studio는 로컬에서 작동하는 Gemma 4 모델을 외부 애플리케이션이나 코드(예: Python SDK, Web UI 등)에서 호출할 수 있도록 OpenAI 규격과 100% 호환되는 API 서버 기능을 제공합니다.
 
-1. 좌측 메뉴에서 **이중 플러그 아이콘(Local Server)**을 클릭합니다.
+1. 좌측 메뉴에서 **이중 플러그 아이콘(Local Server)을** 클릭합니다.
 2. 상단 드롭다운에서 Gemma 4 모델이 선택되어 있는지 확인합니다.
 3. 우측 설정 창에서 포트 번호(기본값: `1234`)를 확인하고, **Start Server** 버튼을 누릅니다.
 4. 서버가 켜지면 아래와 같이 `http://localhost:1234/v1` 경로로 OpenAI SDK 스타일의 요청을 수신할 수 있게 됩니다.
