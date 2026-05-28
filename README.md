@@ -7,11 +7,13 @@ Google GDG Cloud Korea가 주최하는 **Build with AI Cloud x Pangyo 2026** 행
 
 상세한 설치 및 준비 과정은 아래 문서 링크들을 확인해 주세요.
 
-*   **[전체 사전 준비 안내 (메인 가이드)](./docs/README.md)**
-*   **[Ollama 설치 및 모델 다운로드 가이드](./docs/ollama_guide.md)**
-*   **[LM Studio 설치 및 GGUF 모델 로드 가이드](./docs/lmstudio_guide.md)**
-*   **[llama.cpp 빌드 및 실행 가이드](./docs/llamacpp_guide.md)**
-*   **[Gemma 4 모델 및 하드웨어 사양 상세 안내](./docs/gemma4_guide.md)**
+*   [**전체 사전 준비 안내 (메인 가이드)**](./docs/README.md)
+*   [**Ollama 설치 및 모델 다운로드 가이드**](./docs/ollama_guide.md)
+*   [**LM Studio 설치 및 GGUF 모델 로드 가이드**](./docs/lmstudio_guide.md)
+*   [**llama.cpp 빌드 및 실행 가이드**](./docs/llamacpp_guide.md)
+*   [**uv 설치 및 개발 환경 가이드**](./docs/uv_guide.md)
+*   [**Gemma 4 모델 및 하드웨어 사양 상세 안내**](./docs/gemma4_guide.md)
+*   [**핸즈온 코드 개발 가이드 및 시스템 프롬프트**](./docs/hands_on_code_guide.md)
 
 ---
 
