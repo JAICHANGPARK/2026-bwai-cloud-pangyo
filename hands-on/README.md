@@ -14,7 +14,7 @@
 ## 실습 진행 절차
 
 ### 1. 개발 환경 구성
-[uv 설치 및 가상환경 구성 가이드](../docs/uv_guide.md)에 따라 개발 환경 및 패키지 설치(`uv add httpx openai python-dotenv`)를 완료해 주세요.
+[uv 설치 및 가상환경 구성 가이드](../docs/uv_guide.md)에 따라 개발 환경 구성을 완료해 주세요. (가상환경 활성화 후 `uv sync`를 실행해 실습에 필요한 패키지 동기화를 완료합니다.)
 
 ### 2. 환경변수 설정 파일 생성 (`.env`)
 `hands-on` 폴더 내에 `.env` 파일을 새로 생성하고 본인이 사용 중인 로컬 API 서버와 다운로드받은 모델 크기에 맞춰 아래 양식 중 하나를 복사하여 설정합니다.
@@ -38,14 +38,16 @@ LLM_MODEL=gemma-4-e4b-it
 ```
 
 ### 3. 실습 코드 실행
-uv 가상환경이 활성화된 상태에서 아래 명령어를 실행하여 코드를 구동합니다.
+터미널에서 `hands-on` 폴더로 이동한 후 아래 명령어를 실행하여 코드를 구동합니다.
 
 ```bash
-# 프로젝트 루트 폴더에서 실행 시 (권장)
-uv run hands-on/reference/main.py
-
-# hands-on 폴더로 이동하여 실행 시
+# hands-on 폴더로 이동 (이미 이동했다면 생략 가능)
 cd hands-on
+
+# 기본 질문으로 실행
+uv run reference/main.py
+
+# 질문을 변경하여 실행
 uv run reference/main.py "로컬 LLM을 연동할 때 HTTPX가 Requests 라이브러리보다 유리한 점은 무엇인가요?"
 ```
 
