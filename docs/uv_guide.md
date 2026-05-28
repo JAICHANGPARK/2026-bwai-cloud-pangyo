@@ -81,7 +81,7 @@ uv venv
 ### 3. 실습 필수 라이브러리 설치
 핸즈온 세션에서 다룰 `httpx`, `openai`(OpenAI 호환 API 대응용), `python-dotenv`(환경변수 관리용) 라이브러리를 설치합니다:
 ```bash
-uv pip install httpx openai python-dotenv
+uv add httpx openai python-dotenv
 ```
 *   기존 pip와 달리 캐싱 메커니즘 덕분에 몇 초 안에 패키지 설치가 완료됩니다.
 

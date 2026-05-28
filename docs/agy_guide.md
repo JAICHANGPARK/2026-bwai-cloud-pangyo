@@ -9,7 +9,7 @@
 ### 라이브러리 설치
 가상환경을 활성화한 상태에서 AGY SDK와 환경변수 로더를 설치합니다:
 ```bash
-uv pip install google-antigravity python-dotenv
+uv add google-antigravity python-dotenv
 ```
 
 ### API 키 설정
