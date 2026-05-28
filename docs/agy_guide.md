@@ -1,109 +1,86 @@
-# Google Antigravity (AGY) SDK를 활용한 핸즈온 코드 생성 가이드
+# agy CLI를 활용한 핸즈온 코드 생성 가이드
 
-이 문서는 Google Antigravity (AGY) SDK 에이전트에 우리가 정의한 **핸즈온 시스템 프롬프트**를 주입하고, 에이전트가 그 규칙에 따라 필요한 파이썬 실습 코드를 자동으로 생성하도록 구현하는 방법을 안내합니다.
+[Antigravity CLI](https://antigravity.google) (명령어: `agy`)는 터미널 및 콘솔 환경에서 복잡한 코딩 지시, 파일 생성/편집, 에이전트 자율 수행 작업을 수행하는 Google의 에이전트 개발 도구입니다.
+
+이 문서는 `agy` CLI 환경에서 우리가 정의한 **핸즈온 시스템 프롬프트**를 연동하여 실습 코드를 자동으로 생성하도록 요청하는 두 가지 구체적인 방법을 안내합니다.
 
 ---
 
-## 1. 사전 준비
+## 1. 방법 A: 작업 공간 규칙 (Workspace Rules) 활용하기 (권장)
 
-### 라이브러리 설치
-가상환경을 활성화한 상태에서 AGY SDK와 환경변수 로더를 설치합니다:
-```bash
-uv add google-antigravity python-dotenv
-```
+`agy` CLI는 실행되는 디렉토리(작업 공간)의 `.agents/rules/` 하위에 위치한 Markdown 문서를 컨텍스트(작업 규칙)로 자동 로드합니다. 가장 간편하고 일관된 코드 생성 방법입니다.
 
-### API 키 설정
-Gemini 모델 호출을 위해 Google AI Studio에서 API 키를 발급받은 뒤 `.env` 파일에 저장합니다.
-*   **API 키 발급:** [Google AI Studio API Key](https://aistudio.google.com/app/api-keys)
-*   **`.env` 파일 설정:**
-    ```env
-    GEMINI_API_KEY=your_gemini_api_key_here
+### step 1. 규칙 파일 생성
+프로젝트 루트 폴더에 `.agents/rules/` 디렉토리를 만들고, 실습용 규칙 파일(예: `gemma4_hands_on.md`)을 작성합니다.
+
+*   **파일 경로:** `.agents/rules/gemma4_hands_on.md`
+*   **파일 내용:** (앞서 정의한 시스템 프롬프트를 규칙 문서화합니다)
+    ```markdown
+    # Gemma 4 핸즈온 코드 생성 규칙
+    
+    이 작업 공간에서 파이썬 LLM 연동 코드를 생성할 때는 반드시 다음 규칙을 준수해야 합니다:
+    
+    1. HTTP 클라이언트 라이브러리로 requests 대신 `httpx`를 사용할 것.
+    2. 가볍고 빠른 비동기(Async) 또는 동기(Sync) 코드를 선택적으로 제공할 것.
+    3. 로컬 API 환경 설정을 소스코드 하드코딩이 아닌 환경변수(`os.getenv`)를 통해 유연하게 주입할 것:
+       - `LLM_PROVIDER`: 'ollama' | 'lmstudio' | 'llamacpp' (기본값: 'ollama')
+       - `LLM_API_URL`: 서버 Base URL (기본값은 제공자별 기본 포트 기준 자동 매핑)
+       - `LLM_MODEL`: 호출할 모델 이름 (기본값: 'gemma4:e4b')
+    4. Gemma 4 모델의 생각 과정(Thinking/Reasoning)을 파싱하여 화면에 시각적으로 구분하여 표시할 것:
+       - 스트리밍 출력 시 `<think>` 태그가 감지되면 화면에 `[생각 과정 시작...]` 문구와 함께 회색 색상 코드로 출력하고, `</think>`를 만나면 일반 답변 출력으로 복귀할 것.
+    5. 로컬 서버 연결이 끊겼거나 접속이 안 될 때 상세한 에러 핸들링 코드를 포함할 것.
     ```
 
----
-
-## 2. AGY 에이전트 구성 및 코드 생성 방법
-
-AGY SDK에서 시스템 프롬프트(Persona/System Instructions)를 주입할 때는 `LocalAgentConfig` 클래스의 `system_instructions` 인자를 사용합니다.
-
-아래는 시스템 프롬프트를 에이전트에 주입하고, 사용자의 상세 요구사항을 받아 핸즈온 코드를 스트리밍으로 출력받는 완성형 파이썬 스크립트입니다.
-
-### 파일 작성: `generate_hands_on_code.py`
-```python
-import asyncio
-import os
-from google.antigravity import Agent, LocalAgentConfig
-from google.antigravity.types import TemplatedSystemInstructions
-from dotenv import load_dotenv
-
-# 환경변수 로드 (.env의 GEMINI_API_KEY 활성화)
-load_dotenv()
-
-# 앞서 정의한 핸즈온 코드 생성 시스템 프롬프트
-HANDS_ON_SYSTEM_PROMPT = """역할: 너는 로컬 LLM 통합에 특화된 시니어 파이썬 개발자야.
-작성 목표: 로컬에 기동된 Gemma 4 API 서버(Ollama, LM Studio, llama.cpp) 중 선택한 환경에 맞춰 비동기 또는 동기 방식으로 추론하고, 스트리밍 응답과 모델의 생각 과정(Reasoning/Thinking)을 구분해 출력해 주는 파이썬 스크립트를 작성해 줘.
-
-반드시 지켜야 할 제약사항:
-1. HTTP 클라이언트 라이브러리로 requests 대신 'httpx'를 사용할 것.
-2. 가볍고 빠른 비동기(Async) 또는 동기(Sync) 코드를 선택적으로 제공할 것.
-3. 로컬 API 환경 설정을 소스코드 하드코딩이 아닌 '환경변수(os.environ)'를 통해 유연하게 주입할 것:
-   - LLM_PROVIDER: 'ollama' | 'lmstudio' | 'llamacpp' (기본값: 'ollama')
-   - LLM_API_URL: 해당 서버의 Base URL (기본값은 제공자별 기본 포트 기준 자동 매핑)
-   - LLM_MODEL: 호출할 모델 이름 (기본값: 'gemma4:e4b')
-4. Gemma 4 모델의 생각 과정(Thinking/Reasoning)을 파싱하여 화면에 시각적으로 구분하여 표시할 것:
-   - 일반적으로 생각 과정은 응답 텍스트의 <think>와 </think> 태그 내부에 존재함.
-   - 스트리밍 출력 시 <think> 태그가 감지되면 화면에 '[생각 과정 시작]' 문구와 함께 회색이나 다른 텍스트 스타일로 출력하고, </think>를 만나면 일반 답변 출력으로 전환해 줘.
-5. 로컬 서버 연결이 끊겼거나 접속이 안 될 때 상세한 에러 핸들링 코드를 포함할 것.
-"""
-
-async def main():
-    # 1. 에이전트 설정 정의 (시스템 지침 주입)
-    config = LocalAgentConfig(
-        system_instructions=TemplatedSystemInstructions(
-            identity=HANDS_ON_SYSTEM_PROMPT
-        )
-    )
-
-    # 2. 에이전트 초기화 및 실행
-    print("AGY 에이전트를 초기화합니다...")
-    async with Agent(config) as agent:
-        # 생성할 코드의 구체적인 요구사항 설정
-        user_request = (
-            "LM Studio에서 gemma-4-e4b-it 모델을 호출하고 생각 과정(thinking)과 "
-            "답변을 httpx로 처리하는 동기식(Sync) 파이썬 코드를 작성해줘."
-        )
-        
-        print(f"\n[요청] {user_request}\n")
-        print("[응답 스트리밍 시작]\n" + "=" * 50)
-        
-        # 3. 에이전트 대화 시작
-        response = await agent.chat(user_request)
-        
-        # 4. 생성된 응답 실시간 출력
-        async for token in response:
-            print(token, end="", flush=True)
-            
-        print("\n" + "=" * 50 + "\n[코드 생성 완료]")
-
-if __name__ == "__main__":
-    asyncio.run(main())
-```
-
----
-
-## 3. 에이전트 실행 및 결과 확인
-
-생성한 파이썬 스크립트를 `uv`를 통해 바로 가동해 봅니다:
+### step 2. agy CLI로 코드 생성 명령 실행
+터미널을 열고 프로젝트 루트에서 `agy` 명령어를 직접 호출하여 필요한 코드를 파일로 생성하도록 요청합니다. `agy`는 에이전트이므로 파일을 직접 쓰고 수정할 수 있습니다.
 
 ```bash
-uv run generate_hands_on_code.py
+agy "Ollama에서 gemma4:e4b 모델을 호출하고 생각 과정(thinking)과 답변을 httpx로 처리하는 파이썬 코드를 hands-on/main.py에 작성해줘"
 ```
 
-### 실행 프로세스 설명
-1.  **에이전트 Config 초기화:** `LocalAgentConfig`가 주입된 시스템 지침(`HANDS_ON_SYSTEM_PROMPT`)을 탑재합니다.
-2.  **세션 수립:** `Agent(config)` 컨텍스트 매니저를 통해 구글 제미나이(Gemini) 백엔드와 연결을 엽니다.
-3.  **코드 추론:** 에이전트가 사용자의 요구사항("LM Studio 연동 동기식 파이썬 코드 작성")을 시스템 지침 조건과 결합하여 코드를 빌드합니다.
-4.  **스트리밍 출력:** `async for token in response` 구문이 실시간으로 텍스트 토큰을 받아 터미널에 생성 과정을 뿌려줍니다.
+*   **동작 원리:** `agy` CLI가 가동되면서 `.agents/rules/gemma4_hands_on.md`에 설정된 제약조건을 자동으로 읽어들이고, 이에 맞춰 `hands-on/main.py` 파일을 생성해 줍니다.
 
-이를 응용하여 다양한 로컬 환경(예: llama.cpp 비동기 API 서버 연동 등)에 대응하는 실습 스크립트를 에이전트가 직접 규격에 맞춰 생성하도록 실습을 진행할 수 있습니다.
-[목차로 돌아가기](./README.md)
+---
+
+## 2. 방법 B: 커스텀 에이전트 (Custom Agent) 정의하기
+
+특정 역할만을 담당하는 전용 에이전트 가상 구성을 사용하고 싶다면, 프로젝트 내에 `agent.json` 파일을 작성하여 시스템 프롬프트를 고정할 수 있습니다.
+
+### step 1. 에이전트 정의 파일 생성
+프로젝트 폴더 내에 에이전트 설정 디렉토리를 생성하고 `agent.json` 파일을 설정합니다.
+
+*   **파일 경로:** `.agents/agents/gemma-coder/agent.json`
+*   **파일 내용:**
+    ```json
+    {
+      "name": "gemma-coder",
+      "description": "Gemma 4 로컬 개발용 httpx 실습 코드를 규칙에 맞춰 전문적으로 빌드하는 에이전트",
+      "systemPromptSections": [
+        "역할: 너는 로컬 LLM 통합에 특화된 시니어 파이썬 개발자야.",
+        "작성 목표: 로컬에 기동된 Gemma 4 API 서버(Ollama, LM Studio, llama.cpp)에 맞춰 비동기 또는 동기 방식으로 추론하고, 스트리밍 응답과 모델의 생각 과정(Reasoning/Thinking)을 구분해 출력해 주는 파이썬 스크립트를 작성해 줘.",
+        "제약사항: (1) httpx 라이브러리 사용, (2) 비동기/동기 선택 제공, (3) LLM_PROVIDER/LLM_API_URL/LLM_MODEL 환경변수 사용, (4) <think> 생각 과정 분리 파싱 출력, (5) Connection Error 핸들링 포함."
+      ]
+    }
+    ```
+
+### step 2. 커스텀 에이전트 지정 호출
+`--agent` 플래그를 사용하여 생성해 둔 에이전트를 지정하고 질문을 전달합니다.
+
+```bash
+agy --agent gemma-coder "LM Studio용 동기식(Sync) 파이썬 연동 코드를 콘솔에 출력해줘"
+```
+
+---
+
+## 3. 설정 확인 및 디버깅
+
+내가 작성한 작업 공간 규칙과 커스텀 에이전트가 `agy` CLI에 정상적으로 로드되었는지 확인하려면 다음 명령을 실행합니다:
+
+```bash
+agy inspect
+```
+
+*   **확인 사항:** `Workspace Rules` 항목에 `.agents/rules/gemma4_hands_on.md` 파일이 정상 등록되어 있고, `Custom Agents`에 `gemma-coder` 에이전트가 목록에 노출되는지 확인합니다.
+
+이제 `agy` CLI의 강력한 자율 에이전트 기능을 활용해 Gemma 4 핸즈온 준비를 쉽고 빠르게 수행할 수 있습니다!
+[목차로 돌아가기](../docs/README.md)
