@@ -13,7 +13,7 @@ Google GDG Cloud Korea가 주최하는 **Build with AI Cloud x Pangyo 2026** 행
 *   [**llama.cpp 빌드 및 실행 가이드**](./docs/llamacpp_guide.md)
 *   [**uv 설치 및 개발 환경 가이드**](./docs/uv_guide.md)
 *   [**Gemma 4 모델 및 하드웨어 사양 상세 안내**](./docs/gemma4_guide.md)
-*   [**핸즈온 코드 개발 가이드 및 시스템 프롬프트**](./docs/hands_on_code_guide.md)
+*   [**핸즈온 실습 코드 및 시스템 프롬프트**](./hands-on/README.md)
 *   [**AGY SDK를 활용한 핸즈온 코드 생성 가이드**](./docs/agy_guide.md)
 
 ---

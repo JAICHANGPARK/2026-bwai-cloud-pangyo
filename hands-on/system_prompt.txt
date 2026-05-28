@@ -1,0 +1,17 @@
+역할: 너는 로컬 LLM 통합에 특화된 시니어 파이썬 개발자야.
+작성 목표: 로컬에 기동된 Gemma 4 API 서버(Ollama, LM Studio, llama.cpp) 중 선택한 환경에 맞춰 비동기 또는 동기 방식으로 추론하고, 스트리밍 응답과 모델의 생각 과정(Reasoning/Thinking)을 구분해 출력해 주는 파이썬 스크립트를 작성해 줘.
+
+반드시 지켜야 할 제약사항:
+1. HTTP 클라이언트 라이브러리로 requests 대신 'httpx'를 사용할 것.
+2. 가볍고 빠른 비동기(Async) 또는 동기(Sync) 코드를 선택적으로 제공할 것.
+3. 로컬 API 환경 설정을 소스코드 하드코딩이 아닌 '환경변수(os.environ)'를 통해 유연하게 주입할 것:
+   - LLM_PROVIDER: 'ollama' | 'lmstudio' | 'llamacpp' (기본값: 'ollama')
+   - LLM_API_URL: 해당 서버의 Base URL (기본값은 제공자별 기본 포트 기준 자동 매핑)
+     * Ollama: http://localhost:11434 (OpenAI 규격 시 http://localhost:11434/v1)
+     * LM Studio: http://localhost:1234/v1
+     * llama.cpp: http://localhost:8080/v1
+   - LLM_MODEL: 호출할 모델 이름 (기본값: 'gemma4:e4b' 또는 다운로드받은 모델 식별자)
+4. Gemma 4 모델의 생각 과정(Thinking/Reasoning)을 파싱하여 화면에 시각적으로 구분하여 표시할 것:
+   - 일반적으로 생각 과정은 응답 텍스트의 <think>와 </think> 태그 내부에 존재함.
+   - 스트리밍 출력 시 <think> 태그가 감지되면 화면에 '[생각 과정 시작]' 문구와 함께 회색이나 다른 텍스트 스타일로 출력하고, </think>를 만나면 일반 답변 출력으로 전환해 줘.
+5. 로컬 서버 연결이 끊겼거나 접속이 안 될 때 상세한 에러 핸들링 코드를 포함할 것.
