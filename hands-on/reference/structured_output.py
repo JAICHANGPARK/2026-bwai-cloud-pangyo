@@ -75,7 +75,7 @@ async def get_structured_developer_profile(prompt: str):
                     print(f"상세 내용: {error_body.decode('utf-8')}")
                     return
 
-                async for line in response.iter_lines():
+                async for line in response.aiter_lines():
                     if not line:
                         continue
                     

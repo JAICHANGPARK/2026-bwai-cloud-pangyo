@@ -170,7 +170,7 @@ async def run_function_calling(prompt: str):
                     print(f"최종 응답 오류: {stream_response.status_code}")
                     return
 
-                async for line in stream_response.iter_lines():
+                async for line in stream_response.aiter_lines():
                     if not line:
                         continue
                     

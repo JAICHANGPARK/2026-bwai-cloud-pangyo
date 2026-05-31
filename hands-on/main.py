@@ -57,7 +57,7 @@ async def call_gemma4_stream(prompt: str):
                 in_thinking = False
                 
                 # 라인별 스트림 파싱
-                async for line in response.iter_lines():
+                async for line in response.aiter_lines():
                     if not line:
                         continue
                     

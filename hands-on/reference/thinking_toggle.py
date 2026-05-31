@@ -61,7 +61,7 @@ async def call_gemma4_with_thinking_toggle(prompt: str, thinking_enabled: bool):
                 in_thinking = False
                 
                 # 라인별 스트림 파싱 및 클라이언트 단의 생각 필터링 적용
-                async for line in response.iter_lines():
+                async for line in response.aiter_lines():
                     if not line:
                         continue
                     
