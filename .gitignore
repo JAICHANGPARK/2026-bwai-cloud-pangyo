@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# Environment variables
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# Hands-on generated files (not references)
+hands-on/main.py
+hands-on/function_calling.py
+hands-on/structured_output.py
+hands-on/thinking_toggle.py
+hands-on/flutter_app.dart
