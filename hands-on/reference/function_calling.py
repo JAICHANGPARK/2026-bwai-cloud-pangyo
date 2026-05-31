@@ -19,16 +19,32 @@ DEFAULT_URLS = {
 }
 API_URL = os.getenv("LLM_API_URL", DEFAULT_URLS.get(PROVIDER, "http://localhost:11434"))
 
-# 실습에 사용할 가상의 날씨 조회 도구(Tool/Function)
+# 실습에 사용할 가상의 날씨 조회 도구(Tool/Function) - wttr.in 무료 날씨 API 활용
 def get_current_weather(location: str):
-    """지정된 도시의 현재 날씨를 가져옵니다."""
-    weather_db = {
-        "seoul": {"temp": "22°C", "condition": "맑음", "humidity": "45%"},
-        "tokyo": {"temp": "25°C", "condition": "흐림", "humidity": "60%"},
-        "new york": {"temp": "18°C", "condition": "비", "humidity": "80%"}
-    }
-    loc_clean = location.lower().split(",")[0].strip()
-    return weather_db.get(loc_clean, {"temp": "20°C", "condition": "맑음", "humidity": "50%"})
+    """지정된 도시의 현재 날씨를 wttr.in API를 통해 실시간으로 가져옵니다."""
+    try:
+        # 영문 도시명 공백 처리 (+ 또는 _로 결합)
+        loc_clean = location.strip().replace(" ", "+")
+        url = f"https://wttr.in/{loc_clean}?format=j1"
+        
+        response = httpx.get(url, timeout=10.0)
+        if response.status_code == 200:
+            data = response.json()
+            condition = data["current_condition"][0]
+            temp = condition["temp_C"]
+            weather_desc = condition["weatherDesc"][0]["value"]
+            humidity = condition["humidity"]
+            return {
+                "temp": f"{temp}°C",
+                "condition": weather_desc,
+                "humidity": f"{humidity}%"
+            }
+    except Exception as e:
+        print(f"[도구 내부 에러] API 호출 실패: {e}")
+        
+    # 실패 시 기본값 (Fallback) 반환
+    return {"temp": "20°C", "condition": "맑음(조회 실패)", "humidity": "50%"}
+
 
 # 모델에 주입할 도구의 스키마 정의
 TOOLS_DEFINITION = [
