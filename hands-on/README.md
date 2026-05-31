@@ -8,24 +8,24 @@
 
 ### 0. Warmup: Flutter / DartPad 실습
 *   [DartPad 사용 및 설정 가이드](../docs/dartpad_guide.md): 브라우저에서 플러터 앱을 빌드하고 실행하는 방법과 제약사항 설명서입니다.
-*   [system_prompt_flutter.txt](./system_prompt_flutter.txt): DartPad에서 단일 파일로 동작하는 플러터 앱 생성을 위한 AI 시스템 프롬프트입니다.
+*   [system_prompt_flutter.txt](./system_prompts/system_prompt_flutter.txt): DartPad에서 단일 파일로 동작하는 플러터 앱 생성을 위한 AI 시스템 프롬프트입니다.
 *   [flutter_app.dart](./reference/flutter_app.dart): DartPad([dartpad.dev](https://dartpad.dev))에 복사해 실행해볼 수 있는 플러터 웰컴 앱 레퍼런스 (벽돌깨기 게임) 코드입니다.
 
 
 ### 1. 기본 스트리밍 & 생각 과정 파싱 실습
-*   [system_prompt.txt](./system_prompt.txt): 기본 대화 스트리밍 및 생각 과정 분리 출력을 위한 AI 시스템 프롬프트입니다.
+*   [system_prompt.txt](./system_prompts/system_prompt.txt): 기본 대화 스트리밍 및 생각 과정 분리 출력을 위한 AI 시스템 프롬프트입니다.
 *   [main.py](./reference/main.py): 환경변수를 연동해 실시간 스트리밍 답변 및 생각 과정을 파싱하는 파이썬 레퍼런스 코드입니다.
 
 ### 2. Function Calling (도구 호출) 실습
-*   [system_prompt_fc.txt](./system_prompt_fc.txt): 날씨 조회 도구를 바인딩하고 처리하는 코드를 생성하기 위한 AI 시스템 프롬프트입니다.
+*   [system_prompt_fc.txt](./system_prompts/system_prompt_fc.txt): 날씨 조회 도구를 바인딩하고 처리하는 코드를 생성하기 위한 AI 시스템 프롬프트입니다.
 *   [function_calling.py](./reference/function_calling.py): 모델의 도구 호출 요청을 받아 로컬 함수를 실행한 후 최종 대답을 출력하는 레퍼런스 코드입니다.
 
 ### 3. Structured Output (구조화된 출력) 실습
-*   [system_prompt_so.txt](./system_prompt_so.txt): 특정 JSON 스키마 규격으로 출력을 강제하고 파싱하는 코드를 생성하기 위한 AI 시스템 프롬프트입니다.
+*   [system_prompt_so.txt](./system_prompts/system_prompt_so.txt): 특정 JSON 스키마 규격으로 출력을 강제하고 파싱하는 코드를 생성하기 위한 AI 시스템 프롬프트입니다.
 *   [structured_output.py](./reference/structured_output.py): JSON 모드를 활성화하고 수신된 JSON의 스키마 유효성을 검증하는 레퍼런스 코드입니다.
 
 ### 4. Thinking Toggle (생각 토글) 실습
-*   [system_prompt_tt.txt](./system_prompt_tt.txt): 생각 과정을 API 레벨 및 클라이언트 필터링으로 켜고 끄며, 인터랙티브 루프를 지원하는 코드를 위한 AI 시스템 프롬프트입니다.
+*   [system_prompt_tt.txt](./system_prompts/system_prompt_tt.txt): 생각 과정을 API 레벨 및 클라이언트 필터링으로 켜고 끄며, 인터랙티브 루프를 지원하는 코드를 위한 AI 시스템 프롬프트입니다.
 *   [thinking_toggle.py](./reference/thinking_toggle.py): CLI 플래그에 따라 생각 과정 출력을 콘솔에 노출하거나 완전히 가리는 제어 레퍼런스 코드입니다.
 
 ---
@@ -73,7 +73,7 @@ LLM_API_URL=http://localhost:11434
 
 > [!TIP]
 > **AI 어시스턴트에게 코드를 작성해달라고 프롬프트를 입력하는 방법:**
-> 1. 사용할 주제의 시스템 프롬프트 내용(예: `system_prompt_tt.txt`)을 전체 복사합니다.
+> 1. 사용할 주제의 시스템 프롬프트 내용(예: `system_prompts/system_prompt_tt.txt`)을 전체 복사합니다.
 > 2. AI 어시스턴트 대화창에 복사한 내용을 붙여넣으며 아래 명령조를 추가합니다:
 >    - *"이 시스템 프롬프트 지침에 맞춰서 로컬 LLM 연동 코드를 구현해줘."*
 >    - *"작성된 결과는 지정된 파일 경로(예: `hands-on/thinking_toggle.py`)에 정확히 저장하거나 코드로 제공해줘."*
@@ -86,7 +86,7 @@ LLM_API_URL=http://localhost:11434
 코드가 올바르게 생성되었는지 확인하기 위해 아래 명령어를 입력하여 각 실습을 구동합니다. (작성한 코드 실행 시에는 레퍼런스가 아닌 생성한 코드 파일명으로 바로 실행합니다.)
 
 ### 0) Flutter / DartPad 실습
-1. [system_prompt_flutter.txt](./system_prompt_flutter.txt) 내용을 복사해 프롬프트로 주입 후 플러터 코드를 요청합니다.
+1. [system_prompt_flutter.txt](./system_prompts/system_prompt_flutter.txt) 내용을 복사해 프롬프트로 주입 후 플러터 코드를 요청합니다.
 2. 생성된 코드 전체를 복사하여 [dartpad.dev](https://dartpad.dev)에 붙여넣고 **Run** 버튼을 눌러 브라우저에서 실행합니다. (자세한 브라우저 실행 가이드 및 주의사항은 [DartPad 사용 및 설정 가이드](../docs/dartpad_guide.md)를 참고해 주세요.)
 
 ### 1) 기본 대화 스트리밍 & 생각 파싱 실습 (`main.py`)
