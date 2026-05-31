@@ -1,4 +1,5 @@
 ---
+name: gemma-tt
 description: Generate Gemma 4 Thinking Toggle Code
 ---
 

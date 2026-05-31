@@ -1,4 +1,5 @@
 ---
+name: gemma-coder
 description: Generate Gemma 4 Basic Streaming Code
 ---
 

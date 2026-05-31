@@ -1,4 +1,5 @@
 ---
+name: flutter-coder
 description: Generate Flutter Dashboard Code
 ---
 

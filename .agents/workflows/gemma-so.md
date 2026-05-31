@@ -1,4 +1,5 @@
 ---
+name: gemma-so
 description: Generate Gemma 4 Structured Output Code
 ---
 

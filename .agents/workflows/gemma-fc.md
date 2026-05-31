@@ -1,4 +1,5 @@
 ---
+name: gemma-fc
 description: Generate Gemma 4 Function Calling Code
 ---
 
