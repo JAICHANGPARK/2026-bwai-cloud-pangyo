@@ -8,6 +8,15 @@
 
 ---
 
+## 0. 실습 리포지토리 복제 (Git Clone)
+본 가이드 및 실습 코드 실행을 위해 먼저 리포지토리를 노트북에 복제(Clone)합니다. 터미널에서 다음 명령어를 실행해 주세요:
+```bash
+git clone https://github.com/JAICHANGPARK/2026-bwai-cloud-pangyo.git
+cd 2026-bwai-cloud-pangyo
+```
+
+---
+
 ## 행사 정보
 *   **일시:** 2026년 5월 31일 (일요일) 오후 2:00 ~ 오후 4:00 (GMT+9)
 *   **장소:** 온라인 (접속 링크는 신청 페이지 및 등록 이메일 참고)
