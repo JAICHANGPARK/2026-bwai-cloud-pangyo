@@ -7,3 +7,5 @@ description: Generate Gemma 4 Structured Output Code
 3. Constrain the model with a JSON schema containing `name`, `role`, `skills`, and `experience_years`.
 4. Configure JSON mode parameters: `"format": "json"` for Ollama, `"response_format": {"type": "json_object"}` for LM Studio/llama.cpp.
 5. Parse and validate the accumulated output using `json.loads` before printing validation status.
+6. Implement a terminal interactive loop (`while True`) with prompt 'User (프로필을 생성할 인물 이름): ' when no command line argument is passed, allowing repeated structured output profile generation.
+

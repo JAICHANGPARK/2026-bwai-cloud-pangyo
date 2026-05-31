@@ -130,12 +130,34 @@ async def main():
         thinking_enabled = False
         args.remove("--no-think")
         
+    # CLI 인자로 질문이 추가로 전달되면 일회성으로 질문하고 종료
     if args:
         prompt = " ".join(args)
-    else:
-        prompt = "생각 과정이 필요한 어려운 수학 문제: 17 * 39 + 128 / 4 - 83은 무엇인가요?"
-        
-    await call_gemma4_with_thinking_toggle(prompt, thinking_enabled)
+        await call_gemma4_with_thinking_toggle(prompt, thinking_enabled)
+        return
+
+    # CLI 인자가 없으면 인터랙티브 대화 루프 실행
+    status_str = "비활성화" if not thinking_enabled else "활성화"
+    print(f"Gemma 4 로컬 Thinking Toggle 실습을 시작합니다 (생각 기능: {status_str}).")
+    print("종료하려면 'exit' 또는 'quit'을 입력하세요.")
+    print("-" * 60)
+    
+    while True:
+        try:
+            # 사용자 입력 대기
+            prompt = input("\nUser: ").strip()
+            if not prompt:
+                continue
+            if prompt.lower() in ["exit", "quit"]:
+                print("채팅을 종료합니다.")
+                break
+            
+            await call_gemma4_with_thinking_toggle(prompt, thinking_enabled)
+            
+        except KeyboardInterrupt:
+            print("\n\n[실행 중단] 사용자에 의해 프로그램이 종료되었습니다.")
+            sys.exit(0)
+
 
 if __name__ == "__main__":
     try:

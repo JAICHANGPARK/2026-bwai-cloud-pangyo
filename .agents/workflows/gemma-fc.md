@@ -7,3 +7,5 @@ description: Generate Gemma 4 Function Calling Code
 3. Define a `get_current_weather(location)` function that calls the `wttr.in` JSON API (`https://wttr.in/{location}?format=j1`) to fetch real weather data.
 4. Step 1 (Tool Assessment) should be non-streaming (`stream=False`), and Step 2 (Final Response) should be streaming (`stream=True`).
 5. Handle Ollama-native and OpenAI-compatible tool response formats.
+6. Implement a terminal interactive loop (`while True`) with prompt 'User: ' when no command line argument is passed, allowing repeated query execution.
+

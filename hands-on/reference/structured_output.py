@@ -121,12 +121,31 @@ async def get_structured_developer_profile(prompt: str):
         print(f"\n[오류 발생] 예외 정보: {e}")
 
 async def main():
+    # CLI 인자가 주어지면 일회성으로 질문하고 종료
     if len(sys.argv) > 1:
         prompt = " ".join(sys.argv[1:])
-    else:
-        prompt = "파이썬 크리에이터 Guido van Rossum에 대한 프로필을 JSON 형태로 생성해줘."
-        
-    await get_structured_developer_profile(prompt)
+        await get_structured_developer_profile(prompt)
+        return
+
+    # CLI 인자가 없으면 인터랙티브 대화 루프 실행
+    print("Gemma 4 로컬 Structured Output 실습을 시작합니다. 종료하려면 'exit' 또는 'quit'을 입력하세요.")
+    print("-" * 60)
+    
+    while True:
+        try:
+            # 사용자 입력 대기
+            prompt = input("\nUser (프로필을 생성할 인물 이름): ").strip()
+            if not prompt:
+                continue
+            if prompt.lower() in ["exit", "quit"]:
+                print("채팅을 종료합니다.")
+                break
+            
+            await get_structured_developer_profile(prompt)
+            
+        except KeyboardInterrupt:
+            print("\n\n[실행 중단] 사용자에 의해 프로그램이 종료되었습니다.")
+            sys.exit(0)
 
 if __name__ == "__main__":
     try:
@@ -134,3 +153,4 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print("\n\n[실행 중단] 사용자에 의해 프로그램이 종료되었습니다.")
         sys.exit(0)
+
