@@ -138,4 +138,8 @@ async def main():
     await call_gemma4_with_thinking_toggle(prompt, thinking_enabled)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n\n[실행 중단] 사용자에 의해 프로그램이 종료되었습니다.")
+        sys.exit(0)

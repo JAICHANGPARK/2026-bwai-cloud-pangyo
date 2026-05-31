@@ -132,7 +132,11 @@ async def main():
             
         except KeyboardInterrupt:
             print("\n\n[실행 중단] 사용자에 의해 프로그램이 종료되었습니다.")
-            break
+            sys.exit(0)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n\n[실행 중단] 사용자에 의해 프로그램이 종료되었습니다.")
+        sys.exit(0)
