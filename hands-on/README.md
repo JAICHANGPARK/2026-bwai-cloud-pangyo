@@ -6,8 +6,25 @@
 
 ## 폴더 구조 및 파일 설명
 
-*   [system_prompt.txt](./system_prompt.txt): 다른 AI 모델(예: Gemini 등)에 입력하여 제약 조건에 맞는 코드를 자동 생성하기 위한 시스템 프롬프트 텍스트 파일입니다.
-*   [main.py](./reference/main.py): 환경변수를 읽고 로컬 서버(Ollama, LM Studio, llama.cpp)를 호출해 대화를 진행하는 비동기 파이썬 레퍼런스 코드(정답 코드)입니다.
+### 0. Warmup: Flutter / DartPad 실습
+*   [system_prompt_flutter.txt](./system_prompt_flutter.txt): DartPad에서 단일 파일로 동작하는 플러터 앱 생성을 위한 AI 시스템 프롬프트입니다.
+*   [flutter_app.dart](./reference/flutter_app.dart): DartPad(dartpad.dev)에 복사해 실행할 수 있는 플러터 웰컴 앱 레퍼런스 코드입니다.
+
+### 1. 기본 스트리밍 & 생각 과정 파싱 실습
+*   [system_prompt.txt](./system_prompt.txt): 기본 스트리밍 및 생각 과정 분리 출력을 위한 AI 시스템 프롬프트입니다.
+*   [main.py](./reference/main.py): 환경변수를 연동해 실시간 스트리밍 답변 및 생각 과정을 파싱하는 파이썬 레퍼런스 코드입니다.
+
+### 2. Function Calling (도구 호출) 실습
+*   [system_prompt_fc.txt](./system_prompt_fc.txt): 날씨 조회 도구를 바인딩하고 처리하는 코드를 생성하기 위한 AI 시스템 프롬프트입니다.
+*   [function_calling.py](./reference/function_calling.py): 모델의 도구 호출 요청을 받아 로컬 함수를 실행한 후 최종 대답을 출력하는 레퍼런스 코드입니다.
+
+### 3. Structured Output (구조화된 출력) 실습
+*   [system_prompt_so.txt](./system_prompt_so.txt): 특정 JSON 스키마 규격으로 출력을 강제하고 파싱하는 코드를 생성하기 위한 AI 시스템 프롬프트입니다.
+*   [structured_output.py](./reference/structured_output.py): JSON 모드를 활성화하고 수신된 JSON의 스키마 유효성을 검증하는 레퍼런스 코드입니다.
+
+### 4. Thinking Toggle (생각 토글) 실습
+*   [system_prompt_tt.txt](./system_prompt_tt.txt): 생각 과정을 API 레벨 및 클라이언트 필터링으로 켜고 끄는 코드를 생성하기 위한 AI 시스템 프롬프트입니다.
+*   [thinking_toggle.py](./reference/thinking_toggle.py): CLI 플래그에 따라 생각 과정 출력을 콘솔에 노출하거나 완전히 가리는 제어 레퍼런스 코드입니다.
 
 ---
 
@@ -37,22 +54,59 @@ LLM_PROVIDER=llamacpp
 LLM_MODEL=gemma-4-e4b-it
 ```
 
-### 3. 실습 코드 실행
-터미널에서 `hands-on` 폴더로 이동한 후 아래 명령어를 실행하여 코드를 구동합니다.
+### 3. 실습 코드 실행 (레퍼런스 코드)
+터미널에서 `hands-on` 폴더로 이동한 후 각 실습 주제별 레퍼런스(정답) 코드를 아래 명령어로 구동할 수 있습니다.
 
 ```bash
 # hands-on 폴더로 이동 (이미 이동했다면 생략 가능)
 cd hands-on
 
-# 기본 질문으로 실행
+# 1. 기본 스트리밍 + 생각 파싱 레퍼런스 실행
 uv run reference/main.py
 
-# 질문을 변경하여 실행
-uv run reference/main.py "로컬 LLM을 연동할 때 HTTPX가 Requests 라이브러리보다 유리한 점은 무엇인가요?"
+# 2. Function Calling 레퍼런스 실행
+uv run reference/function_calling.py
+
+# 3. Structured Output 레퍼런스 실행
+uv run reference/structured_output.py
+
+# 4. 생각 과정 토글 레퍼런스 실행 (ON 모드)
+uv run reference/thinking_toggle.py
+
+# 4. 생각 과정 토글 레퍼런스 실행 (OFF 모드 - 생각 출력 안 함)
+uv run reference/thinking_toggle.py --no-think "17 * 39 + 128 / 4 - 83은 무엇인가요?"
 ```
 
 ---
 
-## 4. 시스템 프롬프트 활용하기
-[system_prompt.txt](./system_prompt.txt)의 내용을 복사하여 생성형 AI(Gemini 등)의 시스템 지침 또는 프롬프트 입력창에 붙여넣은 뒤, "동기 방식으로 동작하는 Ollama용 실습 코드를 작성해 줘"와 같이 요구사항을 물어보면 제약 조건(`httpx` 사용, 생각 과정 파싱, 환경변수 연동 등)을 충족하는 최적의 코드를 얻을 수 있습니다.
+## 4. 시스템 프롬프트 활용하여 코드 생성 및 실행하기
+본인의 선호하는 AI 어시스턴트(예: Gemini, Cursor, 또는 `agy` 에이전트 CLI)의 지침 또는 프롬프트에 실습용 시스템 프롬프트 파일들의 내용을 입력하여 각 실습별 코드를 직접 생성해 봅니다.
+
+### (0) Warmup: Flutter / DartPad 실습
+1. [system_prompt_flutter.txt](./system_prompt_flutter.txt)의 내용을 복사해 프롬프트로 주입합니다.
+2. AI 도구에 "구글 폰트를 사용한 깔끔한 할 일 관리(Todo) 앱을 만들어줘" 또는 "fl_chart를 활용한 개인 자산 대시보드 앱을 작성해줘"와 같이 원하는 Flutter 앱 코드를 요청합니다.
+3. AI 에이전트(`agy` 등)를 사용하는 경우 `hands-on/flutter_app.dart`에 코드가 자동 생성됩니다.
+4. 실행 방법: 생성된 코드 전체를 복사하여 [dartpad.dev](https://dartpad.dev)에 붙여넣고 우상단의 **Run** 버튼을 눌러 브라우저에서 실행합니다.
+
+### (1) 기본 대화 스트리밍 & 생각 과정 분리 실습
+1. [system_prompt.txt](./system_prompt.txt)의 내용을 복사해 프롬프트로 주입합니다.
+2. AI 도구에 "로컬 연동 실습 코드를 작성해줘"라고 요청하면 `hands-on/main.py`에 코드가 생성됩니다.
+3. 실행 방법: `uv run main.py`
+
+### (2) Function Calling (도구 호출) 실습
+1. [system_prompt_fc.txt](./system_prompt_fc.txt)의 내용을 복사해 프롬프트로 주입합니다.
+2. AI 도구에 "Function Calling 실습 코드를 작성해줘"라고 요청하면 `hands-on/function_calling.py`에 코드가 생성됩니다.
+3. 실행 방법: `uv run function_calling.py`
+
+### (3) Structured Output (구조화된 출력) 실습
+1. [system_prompt_so.txt](./system_prompt_so.txt)의 내용을 복사해 프롬프트로 주입합니다.
+2. AI 도구에 "Structured Output 실습 코드를 작성해줘"라고 요청하면 `hands-on/structured_output.py`에 코드가 생성됩니다.
+3. 실행 방법: `uv run structured_output.py`
+
+### (4) Thinking Toggle (생각 과정 켜기/끄기) 실습
+1. [system_prompt_tt.txt](./system_prompt_tt.txt)의 내용을 복사해 프롬프트로 주입합니다.
+2. AI 도구에 "생각 기능 토글 실습 코드를 작성해줘"라고 요청하면 `hands-on/thinking_toggle.py`에 코드가 생성됩니다.
+3. 실행 방법 (ON): `uv run thinking_toggle.py`
+4. 실행 방법 (OFF): `uv run thinking_toggle.py --no-think`
+
 [메인 목차로 돌아가기](../docs/README.md)
