@@ -1,7 +1,7 @@
 # Build with AI Cloud x Pangyo 2026
 ## Gemma 4 Hands-on Session 사전 준비 가이드
 
-본 가이드는 **Build with AI Cloud x Pangyo 2026** 행사의 **Gemma 4 핸즈온 세션에** 참석하시는 분들이 개인 노트북에 필요한 도구와 AI 모델을 미리 설치하여 원활하게 세션에 참여하실 수 있도록 돕기 위해 작성되었습니다.
+본 가이드는 GDG Cloud Korea와 GDG Pangyo가 함께 준비한 **Build with AI Cloud x Pangyo 2026** 행사의 **Gemma 4 핸즈온 세션**에 참석하시는 분들이 개인 노트북에 필요한 도구와 AI 모델을 미리 설치하여 원활하게 세션에 참여하실 수 있도록 돕기 위해 작성되었습니다.
 
 > [!IMPORTANT]
 > 원활한 핸즈온 진행을 위해 **행사 참석 전(5월 31일 이전)에** 본 가이드를 따라 설치와 모델 다운로드를 완료해 주시기 바랍니다. 온라인 세션 진행 중 실시간으로 다운로드할 경우 시간이 오래 걸리거나 연결이 불안정할 수 있습니다.
@@ -11,6 +11,7 @@
 ## 행사 정보
 *   **일시:** 2026년 5월 31일 (일요일) 오후 2:00 ~ 오후 4:00 (GMT+9)
 *   **장소:** 온라인 (접속 링크는 신청 페이지 및 등록 이메일 참고)
+*   **주최/주관:** GDG Cloud Korea, GDG Pangyo
 *   **행사 신청 및 상세 안내 링크:**
     *   [GDG Cloud Korea 공식 커뮤니티 페이지](https://gdg.community.dev/events/details/google-gdg-cloud-korea-presents-build-with-ai-cloud-x-pangyo-2026/cohost-gdg-cloud-korea/)
     *   [Luma 신청 페이지](https://luma.com/65d0o32r)
